@@ -30,11 +30,16 @@ export default function Navbar() {
     const sectionIds = navLinks.map((l) => l.sectionId);
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveSection(entry.target.id);
-        });
+        const visible = entries.filter((e) => e.isIntersecting);
+        if (visible.length > 0) {
+          // Pick the topmost visible section
+          const top = visible.reduce((a, b) =>
+            a.boundingClientRect.top < b.boundingClientRect.top ? a : b
+          );
+          setActiveSection(top.target.id);
+        }
       },
-      { rootMargin: "-30% 0px -60% 0px", threshold: 0 }
+      { rootMargin: "-20% 0px -35% 0px", threshold: 0.1 }
     );
     sectionIds.forEach((id) => {
       const el = document.getElementById(id);
@@ -47,8 +52,13 @@ export default function Navbar() {
     (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
       e.preventDefault();
       const id = href.replace("#", "");
+      setActiveSection(id);
       const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (el) {
+        const navbarHeight = 64;
+        const top = el.getBoundingClientRect().top + window.scrollY - navbarHeight;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
       setMobileMenuOpen(false);
     },
     []
