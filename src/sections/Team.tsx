@@ -46,7 +46,7 @@ const team = [
     BadgeIcon: Paintbrush,
     bio: "Crafts pixel-perfect, user-centered interfaces that balance aesthetics with conversion.",
     image: imgKenneth,
-    objectPosition: "object-top",
+    objectPosition: "object-center",
     portfolio: "https://personal-portfolio-production-cfc8.up.railway.app/",
   },
   {
