@@ -8,7 +8,17 @@ import imgMike from "@/assets/team-mike.png";
 const imgJohn = "/Vince.png";
 const imgKenneth = "/kenneth-bontia.jpg";
 
-const team = [
+const team: Array<{
+  name: string;
+  role: string;
+  badge: string;
+  BadgeIcon: React.ComponentType<{ className?: string }>;
+  bio: string;
+  image: string;
+  objectPosition: string;
+  translateY?: string;
+  portfolio: string;
+}> = [
   {
     name: "Justene Selgas",
     role: "Claude Expert",
@@ -47,6 +57,7 @@ const team = [
     bio: "Crafts pixel-perfect, user-centered interfaces that balance aesthetics with conversion.",
     image: imgKenneth,
     objectPosition: "object-center",
+    translateY: "-translate-y-1.5",
     portfolio: "https://personal-portfolio-production-cfc8.up.railway.app/",
   },
   {
@@ -130,7 +141,7 @@ function TeamCard({ member, i }: { member: typeof team[0]; i: number }) {
           <img
             src={member.image}
             alt={member.name}
-            className={`relative w-24 h-24 rounded-full object-cover ${member.objectPosition} border-2 border-white shadow-sm group-hover:scale-105 transition-transform duration-300`}
+            className={`relative w-24 h-24 rounded-full object-cover ${member.objectPosition} ${member.translateY ?? ""} border-2 border-white shadow-sm group-hover:scale-105 transition-transform duration-300`}
           />
           <motion.div
             animate={{ scale: [1, 1.25, 1] }}
