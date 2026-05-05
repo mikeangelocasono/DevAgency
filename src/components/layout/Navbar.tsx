@@ -27,25 +27,24 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const sectionIds = navLinks.map((l) => l.sectionId);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting);
-        if (visible.length > 0) {
-          // Pick the topmost visible section
-          const top = visible.reduce((a, b) =>
-            a.boundingClientRect.top < b.boundingClientRect.top ? a : b
-          );
-          setActiveSection(top.target.id);
+    const getActiveSection = () => {
+      const offset = 120; // below navbar + breathing room
+      const scrollPos = window.scrollY + offset;
+      let current = navLinks[0].sectionId;
+
+      for (let i = navLinks.length - 1; i >= 0; i--) {
+        const el = document.getElementById(navLinks[i].sectionId);
+        if (el && el.offsetTop <= scrollPos) {
+          current = navLinks[i].sectionId;
+          break;
         }
-      },
-      { rootMargin: "-20% 0px -35% 0px", threshold: 0.1 }
-    );
-    sectionIds.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
+      }
+      setActiveSection(current);
+    };
+
+    window.addEventListener("scroll", getActiveSection, { passive: true });
+    getActiveSection(); // initial check
+    return () => window.removeEventListener("scroll", getActiveSection);
   }, []);
 
   const handleNavClick = useCallback(
