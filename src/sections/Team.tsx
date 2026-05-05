@@ -37,7 +37,7 @@ const team = [
     bio: "Architects scalable APIs, complex database systems, and high-performance backend services.",
     image: imgJohn,
     objectPosition: "object-top",
-    portfolio: null,
+    portfolio: "https://vince-portfolio-sable.vercel.app/",
   },
   {
     name: "Kenneth Bontia",
@@ -46,7 +46,7 @@ const team = [
     BadgeIcon: Paintbrush,
     bio: "Crafts pixel-perfect, user-centered interfaces that balance aesthetics with conversion.",
     image: imgKenneth,
-    objectPosition: "object-center",
+    objectPosition: "object-top",
     portfolio: "https://personal-portfolio-production-cfc8.up.railway.app/",
   },
   {
@@ -57,7 +57,7 @@ const team = [
     bio: "Ensures reliable deployment, scalability, and performance of systems using modern cloud infrastructure and DevOps practices.",
     image: "/kevin-caidic.png",
     objectPosition: "object-top",
-    portfolio: null,
+    portfolio: "https://portfolio-seven-xi-kgbos3lf4u.vercel.app/",
   },
 ];
 
@@ -94,10 +94,10 @@ function TeamCard({ member, i }: { member: typeof team[0]; i: number }) {
     >
       <motion.div
         onClick={handleClick}
-        whileHover={{ y: -8, scale: 1.02 }}
+        whileHover={member.portfolio ? { y: -5, scale: 1.01 } : {}}
         whileTap={member.portfolio ? { scale: 0.97 } : {}}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className={`group relative bg-white border border-gray-100 rounded-2xl p-6 text-center shadow-sm hover:shadow-xl hover:border-orange-200 transition-all duration-300 flex flex-col h-full overflow-hidden ${member.portfolio ? "cursor-pointer" : "cursor-default"}`}
+        className={`group relative bg-white border border-gray-100 rounded-2xl p-6 text-center shadow-sm hover:border-orange-200 transition-all duration-300 flex flex-col h-full overflow-hidden ${member.portfolio ? "cursor-pointer hover:shadow-2xl" : "cursor-default hover:shadow-xl"}`}
       >
         {/* Orange bottom border accent */}
         <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange-400 rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -108,6 +108,11 @@ function TeamCard({ member, i }: { member: typeof team[0]; i: number }) {
             <div className="w-6 h-6 rounded-full bg-orange-50 border border-orange-100 flex items-center justify-center">
               <ExternalLink className="w-3 h-3 text-orange-500" />
             </div>
+          </div>
+        )}
+        {member.portfolio && (
+          <div className="absolute bottom-3 right-3 text-[11px] font-medium text-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+            View Portfolio
           </div>
         )}
 
